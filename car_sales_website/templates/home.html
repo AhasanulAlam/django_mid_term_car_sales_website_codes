@@ -1,0 +1,84 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+
+{% block title %} 
+  Car House | Home 
+{% endblock %} 
+
+{% block content %}
+
+<div class="d-flex flex-wrap align-items-center px-5 pt-3">
+  <div class="col-6">
+    <h1 class="py-3">Welcome to Car House</h1>
+    <p class="pe-5">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora ex vel
+      accusantium rem eveniet, voluptate minima nam odio officiis pariatur
+      obcaecati, perspiciatis quisquam facere architecto dolores, minus iste
+      voluptas fugit illum nobis quasi quaerat. Officia, sunt fugiat! Nam nobis,
+      quam animi ipsam dolores, laudantium accusantium asperiores accusamus aut
+      sit quas deleniti praesentium autem, neque sint velit sunt magnam! Eum
+      sint odio, aliquid ad sapiente laborum delectus obcaecati rem iusto.
+      Doloribus fugiat corrupti adipisci ea praesentium perferendis, tenetur
+      nesciunt veniam laudantium, excepturi aut eius repellat corporis quae
+      saepe illo iusto nostrum rerum? Tenetur, dolorem numquam. Maiores
+      explicabo magnam quibusdam. Harum, maiores.
+    </p>
+  </div>
+  <div class="col-6">
+    <img class="w-50" src="{% static 'banner0.jpg' %}" alt="Header Pic" />
+  </div>
+</div>
+
+<div class="col-12 bg-white p-3 my-5">
+  <h5 class="text-center">~~~ : All Brands : ~~~</h5>
+  <div class="d-flex align-items-center justify-content-center gap-3 my-3">
+    {% for cat in brand %}
+
+    <div class="form-check">
+      
+      <label class="form-check-label" for="{{cat.id}}">
+        <a href="{% url 'brand_wise_post' cat.slug %}" class="btn btn-info"
+          >{{cat.name}}</a
+        >
+      </label>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+<div class="d-flex flex-wrap p-4">
+  <div class="col p-3">
+    <h4 class="px-3">{{data | length}} results found</h4>
+    <div class="row pt-5 container">
+      {% for car in data %}
+      <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+          <img src="{{car.image.url}}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a
+                class="text-decoration-none text-dark"
+                href="{% url 'details_car' car.id %}"
+                >{{car.name}}</a
+              >
+            </h5>
+            <p class="card-text">Price: {{car.price}}</p>
+            <p class="card-text"><small>Brand: {{car.brand.name}}</small></p>
+            <div>
+              <a
+                class="btn btn-primary text-decoration-none"
+                href="{% url 'details_car' car.id %}"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

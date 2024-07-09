@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="container text-center">
+  <h1>Car Details Page</h1>
+</div>
+<hr />
+<div class="container">
+  <div class="col-12 b-3 mb-sm-0">
+
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4 p-3 ">
+          <img src="{{car.image.url}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{car.name}}</h5>
+            <p class="card-text">Price: ${{car.price }}</p>
+            <p class="card-text">Quantity: {{car.quantity }}</p>
+            <p class="card-text">Brand: {{car.brand}}</p>
+            <p class="card-text"><small class="text-body-secondary">{{car.description}}</small></p>
+            <div class="d-flex justify-content-center">
+              {% if request.user.is_authenticated %}
+              <a href={% url 'buy_car' car.id %} class="btn btn-success">Buy Now</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="card my-2">
+    <h5 class="p-3">Total Comments: {{comments | length}}</h5>
+    {% for comment in comments %}
+    <div class="card-body border border-2 border-warning m-2 rounded rounded-4">
+      <p>
+        <span
+          class="border border-2 p-2 rounded rounded-4 border-success fw-semibold"
+          >{{comment.name}}</span
+        ><span class="m-2">: {{comment.created_on}}</span>
+      </p>
+      <p class="ms-5 border border-2 p-2 rounded rounded-4 border-info">
+        {{comment.body}}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="container">
+  <div class="card my-2">
+    <div class="card-body">
+      <form method="post" style="width: 50%; margin: auto">
+        <h1>Add Comment</h1>
+        {% csrf_token %} {{comment_form | crispy}}
+        <button class="btn btn-warning" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

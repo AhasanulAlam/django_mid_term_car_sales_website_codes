@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container text-center">
+        <h1>{{type}} Page</h1>
+    </div>
+    <hr>
+    <div class="container text-center">
+        <a class="btn btn-primary" href="{% url 'edit_profile' %}" >Edit your Profile</a>
+    </div>
+    <hr>
+
+
+    <div class="d-flex flex-wrap p-4">
+      <div class="col p-3">
+        <h3 class="px-3">Purchased Cars : {{purchased_cars | length}}</h3>
+        <div class="row pt-5 container">
+          {% for car in purchased_cars %}
+          <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="card">
+              <img src="{{car.image.url}}" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a class="text-decoration-none text-dark" href="{% url 'details_car' car.id %}">{{car.name}}</a>
+                </h5>
+                <p class="card-text">Price: {{car.price}}</p>
+                <p class="card-text">Brand: {{car.brand.name}}</p>
+                <p class="card-text"><small class="text-body-secondary">{{car.description}}</small></p>
+                <div>
+                  <a class="btn btn-primary text-decoration-none" href="{% url 'details_car' car.id %}">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+
+
+<hr/>
+<hr/>
+
+<div class="" style="background-color: #ADD8E6">
+    <div class="d-flex flex-wrap p-4 bg-bg-body-secondary">
+      <div class="col p-3">
+        <h4 class="px-3">My Uploaded Cars: {{data | length}}</h4>
+        <div class="row pt-5 container">
+          {% for car in data %}
+          <div class="col-sm-3 mb-3 mb-sm-0">
+            <div class="card">
+              <img src="{{car.image.url}}" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a class="text-decoration-none text-dark" href="{% url 'details_car' car.id %}">{{car.name}}</a>
+                </h5>
+                <p class="card-text">Price: {{car.price}}</p>
+                <p class="card-text">Brand: {{car.brand.name}}</p>
+                <p class="card-text"><small class="text-body-secondary">{{car.description}}</small></p>
+                <div>
+                  <a class="btn btn-primary text-decoration-none" href="{% url 'details_car' car.id %}">View Details</a>
+                </div>
+                <hr />
+                {% if request.user.is_authenticated %}
+                <div class="d-flex justify-content-around align-items-center">
+                  <a href="{% url 'edit_car' car.id %}" class="btn btn-warning">Edit</a>
+                  <a href="{% url 'delete_car' car.id %}" class="btn btn-danger">Delete</a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+{% endblock %}
